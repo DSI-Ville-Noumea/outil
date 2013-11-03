@@ -176,7 +176,7 @@ private static void initialiseListeUserHabilites() {
 
 	listeUserHabilites = new java.util.ArrayList();
 	listeUserHabilites.add("BOULU72");
-	listeUserHabilites.add("LAUMI57");
+	listeUserHabilites.add("ADMINWAS");
 }
 
 
