@@ -1,0 +1,15 @@
+ -----
+ Outil
+ -----
+ Frédéric DOS SANTOS
+ -----
+  04/11/2013
+
+Outil
+
+ L'application Outil permet d'effectuer plusieurs opérations :
+  
+  - générer des extractions de données depuis l'AS400 en format <txt> ou <csv> à partir de fichiers ou de requetes SQL enregistrées en base de données.
+  
+  - surveiller le contenu d'un répertoire source donné et transformer les images qui y sont déposées en <PDF> qui seront créés dans un répertoire destination donné.
+

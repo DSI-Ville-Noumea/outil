@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>Outils
+	</display-name>
+	
+	<filter>
+		<filter-name>SetCharacterEncoding</filter-name>
+		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>${project.build.sourceEncoding}</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>SetCharacterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<description>
+		</description>
+		<display-name>ExportFileServlet
+		</display-name>
+		<servlet-name>ExportFileServlet</servlet-name>
+		<servlet-class>nc.mairie.exportfile.servlet.ExportFileServlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ImageDistillerServlet
+		</display-name>
+		<servlet-name>ImageDistillerServlet</servlet-name>
+		<servlet-class>nc.mairie.outils.distiller.ImageDistillerServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ImageDistillerServlet</servlet-name>
+		<url-pattern>/ImageDistillerServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ExportFileServlet</servlet-name>
+		<url-pattern>/ExportFileServlet</url-pattern>
+	</servlet-mapping>
+</web-app>
+

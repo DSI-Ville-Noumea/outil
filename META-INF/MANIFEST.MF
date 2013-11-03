@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: META-INF/itext-1.3.jar Mairie_Commun.jar Mairie_Framework.
- jar
-
