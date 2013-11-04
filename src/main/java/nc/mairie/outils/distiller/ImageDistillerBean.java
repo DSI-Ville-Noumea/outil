@@ -1,5 +1,8 @@
 package nc.mairie.outils.distiller;
 
+import java.util.Enumeration;
+import java.util.Hashtable;
+
 import nc.mairie.technique.Services;
 /**
  * Insérez la description du type ici.
@@ -27,10 +30,10 @@ public java.lang.String getEtat() {
  */
 public java.lang.String[] getLB_DOSSIER() throws Exception {
 
-	java.util.Hashtable h = ImageDistiller.getInstance().lireDossier();
+	Hashtable<String, DossierDistiller> h = ImageDistiller.getInstance().lireDossier();
 	LB_DOSSIER = new String [h.size()];
 	LB_DOSSIER_CLE = new String [h.size()];
-	java.util.Enumeration enume = h.elements();
+	Enumeration<DossierDistiller> enume = h.elements();
 	int i=0;
 	while (enume.hasMoreElements()) {
 		DossierDistiller d = (DossierDistiller)enume.nextElement();

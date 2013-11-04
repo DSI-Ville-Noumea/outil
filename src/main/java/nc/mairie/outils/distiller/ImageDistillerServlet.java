@@ -1,11 +1,20 @@
 package nc.mairie.outils.distiller;
 
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.zip.GZIPInputStream;
 
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nc.mairie.droitsapplis.client.CheckDroits;
+import nc.mairie.technique.BasicBroker;
+import nc.mairie.technique.Transaction;
 import nc.mairie.technique.UserAppli;
 import nc.mairie.technique.VariableGlobale;
 import nc.mairie.technique.MairieLDAP;
@@ -18,9 +27,11 @@ public class ImageDistillerServlet extends javax.servlet.http.HttpServlet {
 	/**
 	 * 
 	 */
+	
+	private static Logger logger = LoggerFactory.getLogger(ImageDistillerServlet.class);
+	
 	private static final long serialVersionUID = 7672747281577006619L;
-	private static java.util.Hashtable parametres;
-	private static java.util.ArrayList listeUserHabilites;
+	private static Hashtable<String, String> parametres;
 	//private static final long serialVersionUID = 123456789;
 /**
  * Méthode qui contrôle l'habilitation d'un utilisateur qui se connecte
@@ -47,11 +58,9 @@ public static boolean controlerHabilitation(javax.servlet.http.HttpServletReques
 	if (auth.toLowerCase().startsWith(startString)) {
 		// Extraction et décodage du user
 		String creditB64 = auth.substring(startString.length());
-		sun.misc.BASE64Decoder decoder = new sun.misc.BASE64Decoder();
-		
-		// Extraction du nom d'utilisateur et du mot de passe
 		try {
-			byte[] credit = decoder.decodeBuffer(creditB64);
+			//byte[] credit = decoder.decodeBuffer(creditB64);
+            byte[] credit = Base64.decodeBase64(creditB64);
 			str = new String(credit);
 
 			//Découpage du nom user:passwd
@@ -63,29 +72,44 @@ public static boolean controlerHabilitation(javax.servlet.http.HttpServletReques
 		}
 	}
 
-	//init de la liste de user habilités au cas où mis à jour
-	initialiseListeUserHabilites();
-	
-	//Contrôle de la liste des authorisés
-	if (! getListeUserHabilites().contains(user.toUpperCase())) {
-		return false;
-	}
-	
 	//Contrôle de l'habilitation LDAP
 	if (!MairieLDAP.controlerHabilitation(getParametres(), user,passwd))
 		return false;
+	
 	//Creation du UserAppli
 	UserAppli aUserAppli = new UserAppli(user,passwd, (String)getParametres().get("HOST_SGBD"));
+	
 	//Ajout du user en var globale
 	VariableGlobale.ajouter(request,VariableGlobale.GLOBAL_USER_APPLI, aUserAppli);
 
+	
+	//Si pas de droits
+	try {
+		if (aUserAppli.getListeDroits().size() == 0) {
+			//init des ghabilitations
+			initialiseHabilitations(request);
+			
+			//Si pas d'habilitation alors erreur
+			if (aUserAppli.getListeDroits().size() == 0) {
+				String message = "Le user "+aUserAppli.getUserName()+" n'est pas habilité à utiliser l'application";
+				logger.info(message);
+				VariableGlobale.enlever(request, VariableGlobale.GLOBAL_USER_APPLI);
+				return false;
+				//return false;
+			}
+		}
+	} catch (Exception e) {
+		VariableGlobale.enlever(request, VariableGlobale.GLOBAL_USER_APPLI);
+	}
+	
+	
 	return true;
 }
 /**
  * Destroy pour tuer le distiller
  */
 public void destroy() {
-	System.out.println("Destroy de ImageDistiller Servlet");
+	logger.info("Destroy de ImageDistiller Servlet");
 	ImageDistiller.getInstance().destroy();
 }
 /**
@@ -97,7 +121,7 @@ public void destroy() {
 public void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
 
 	performTask(request, response);
-
+	
 }
 /**
  * Process incoming HTTP POST requests 
@@ -108,33 +132,23 @@ public void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.h
 public void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
 
 	performTask(request, response);
-
+	
 }
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 12:39:04)
  */
-public java.util.Hashtable getListeDossiers() throws Exception {
+public Hashtable<String, DossierDistiller> getListeDossiers() throws Exception {
 	return ImageDistiller.getInstance().lireDossier();
 }
-/**
- * Insérez la description de la méthode ici.
- *  Date de création : (26/05/2004 11:42:46)
- * @return java.util.ArrayList
- */
-private static java.util.ArrayList getListeUserHabilites() {
-	if (listeUserHabilites ==  null) {
-		listeUserHabilites = new java.util.ArrayList();
-	}
-	return listeUserHabilites;
-}
+
 /**
  * Returns the servlet info string.
  * @author Luc Bourdil
  */
-public static java.util.Hashtable getParametres() {
+public static Hashtable<String, String> getParametres() {
 	if (parametres == null) {
-		parametres = new java.util.Hashtable();
+		parametres = new Hashtable<String, String>();
 	}
 	return parametres;
 }
@@ -169,19 +183,26 @@ public void init() throws javax.servlet.ServletException {
 	// insert code to initialize the servlet here
 	initialiseParametreInitiaux();
 
-	//init des user habilités
-	initialiseListeUserHabilites();
+
 }
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (14/04/2004 09:53:56)
  */
-private static void initialiseListeUserHabilites() {
+private static void initialiseHabilitations(HttpServletRequest request) throws Exception{
 
-	listeUserHabilites = new java.util.ArrayList();
-	listeUserHabilites.add("BOULU72");
-	listeUserHabilites.add("ADMINWAS");
-	listeUserHabilites.add("DOSFR75");
+	UserAppli aUserAppli = getUserAppli(request);
+
+	Connection c = BasicBroker.getUneConnexion(null, null, (String)getParametres().get("HOST_DROITS_APPLIS"));
+	
+	Transaction t = new Transaction(c);
+	
+	ArrayList<String> arr = CheckDroits.getListDroitsFromCompteAppli(t, aUserAppli.getUserName(), (String)getParametres().get("APPLICATION"));
+	
+	aUserAppli.setListeDroits(arr);
+
+	t.rollbackTransaction();
+	
 }
 
 
@@ -196,18 +217,18 @@ private void initialiseParametreInitiaux() {
 
 	boolean doitPrendreInit = getServletContext().getInitParameterNames().hasMoreElements();
 
-	System.out.println("Chargement des paramètres initiaux dans la servlet : "+getClass().getName());
+	logger.info("Chargement des paramètres initiaux dans la servlet : "+getClass().getName());
 	if (getParametres().size() == 0) {
 		
-			//chargement des paramêtres du contexte
-		java.util.Enumeration enumContext = doitPrendreInit ? getServletContext().getInitParameterNames() : getServletContext().getAttributeNames();
+		//chargement des paramêtres du contexte
+		Enumeration<?> enumContext = doitPrendreInit ? getServletContext().getInitParameterNames() : getServletContext().getAttributeNames();
 		while (enumContext.hasMoreElements()) {
 			try {
 				String cleParametre = (String)enumContext.nextElement();
 				if (cleParametre != null && ! cleParametre.startsWith("com.ibm.websphere") ) {
 					String valParametre = doitPrendreInit ? (String)getServletContext().getInitParameter(cleParametre) : (String)getServletContext().getAttribute(cleParametre);
 					getParametres().put(cleParametre,valParametre);
-					System.out.println("Chargement de la clé : "+cleParametre+" avec "+valParametre);
+					logger.info("Chargement de la clé : "+cleParametre+" avec "+valParametre);
 				}
 			} catch (Exception e) {
 				continue;
@@ -215,15 +236,15 @@ private void initialiseParametreInitiaux() {
 		}
 	
 		//chargement des param de la servlet
-		java.util.Enumeration enumServlet = getInitParameterNames();
+		Enumeration<?> enumServlet = getInitParameterNames();
 		while (enumServlet.hasMoreElements()) {
 			String cleParametre = (String)enumServlet.nextElement();
 			String valParametre = (String)getInitParameter(cleParametre);
 			getParametres().put(cleParametre,valParametre);
-			System.out.println("Chargement de la clé : "+cleParametre+" avec "+valParametre);
+			logger.info("Chargement de la clé : "+cleParametre+" avec "+valParametre);
 		}
 	}
-	System.out.println("Fin de chargement des paramètres initiaux dans la servlet : "+getClass().getName());
+	logger.info("Fin de chargement des paramètres initiaux dans la servlet : "+getClass().getName());
 }
 /**
  * Process incoming requests for information

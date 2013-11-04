@@ -1,6 +1,13 @@
 package nc.mairie.outils.distiller;
 
 import java.io.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nc.mairie.technique.ConvertImageToPDF;
 /**
  * Insérez la description du type ici.
@@ -8,14 +15,15 @@ import nc.mairie.technique.ConvertImageToPDF;
  * @author: Administrator
  */
 public class ImageDistiller extends Thread {
-	private static  String nomFichier = "dossiers.dat";
+	private static  String nomFichier;
+	private static Logger logger = LoggerFactory.getLogger(ImageDistiller.class);
 	
 	private int delay;
 	private static ImageDistiller instance;
 	private boolean estArrete = false;
 	private boolean vivant = true;
 
-	private java.util.Vector filesConvertError;
+	private Vector<String> filesConvertError;
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:17:15)
@@ -34,7 +42,7 @@ public ImageDistiller(int aDelay) {
  * @param dest java.lang.String
  */
 public void ajouteDossier(String ord, String dest) throws Exception {
-	java.util.Hashtable list = lireDossier();
+	Hashtable<String, DossierDistiller> list = lireDossier();
 
 	DossierDistiller d = new DossierDistiller(ord, dest);
 	list.put(d.getDossierOrg().getAbsolutePath(), d);
@@ -69,9 +77,9 @@ public void destroy() {
  * @param ord java.lang.String
  * @param dest java.lang.String
  */
-private void ecrireDossier(java.util.Hashtable list) throws Exception{
+private void ecrireDossier(Hashtable<String, DossierDistiller> list) throws Exception{
 	
-	FileOutputStream fout = new FileOutputStream(nomFichier);
+	FileOutputStream fout = new FileOutputStream(getNomFichier());
 	ObjectOutputStream oos = new ObjectOutputStream(fout);
 	oos.writeObject(list);
 	oos.close();
@@ -83,7 +91,7 @@ private void ecrireDossier(java.util.Hashtable list) throws Exception{
  * @param dest java.lang.String
  */
 public void enleveDossier(String ord) throws Exception {
-	java.util.Hashtable list = lireDossier();
+	Hashtable<String, DossierDistiller> list = lireDossier();
 
 	list.remove(ord);
 
@@ -99,11 +107,11 @@ public boolean estArrete() {
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (23/08/2004 11:19:09)
- * @return java.util.Vector
+ * @return Vector
  */
-private java.util.Vector getFilesConvertError() {
+private Vector<String> getFilesConvertError() {
 	if (filesConvertError == null) {
-		filesConvertError = new java.util.Vector();
+		filesConvertError = new Vector<String>();
 	}
 	return filesConvertError;
 }
@@ -125,20 +133,21 @@ public static synchronized ImageDistiller getInstance() {
  * @param ord java.lang.String
  * @param dest java.lang.String
  */
-public java.util.Hashtable lireDossier() throws Exception {
+public Hashtable<String, DossierDistiller> lireDossier() throws Exception {
 	FileInputStream fin = null;
 	try {
-		fin= new FileInputStream(nomFichier);
+		fin= new FileInputStream(getNomFichier());
 	} catch (Exception e) {
-		return new java.util.Hashtable();
+		return new Hashtable<String, DossierDistiller>();
 	}
 	
 	ObjectInputStream ois = new ObjectInputStream(fin);
-	java.util.Hashtable result = (java.util.Hashtable) ois.readObject();
+	@SuppressWarnings("unchecked")
+	Hashtable<String, DossierDistiller> result = (Hashtable<String, DossierDistiller>) ois.readObject();
 	ois.close();
 
 	if (result == null)
-		result = new java.util.Hashtable();
+		result = new Hashtable<String, DossierDistiller>();
 	
 	return result;
 }
@@ -163,7 +172,7 @@ public void run() {
 			}
 		}
 	}
-	System.out.println("Sortie du Distiller");
+	logger.info("Sortie du Distiller");
 }
 /**
  * Insérez la description de la méthode ici.
@@ -172,23 +181,23 @@ public void run() {
 private synchronized void scanneDossiers() throws Exception{
 
 	//Rajout gestion fichiers en erreur de conversion
-	java.util.Vector newFileConvertError = new java.util.Vector();
+	Vector<String> newFileConvertError = new Vector<String>();
 
 	//recup de la liste des dossiers
-	java.util.Hashtable list = lireDossier();
-	java.util.Enumeration enume = list.elements();
+	Hashtable<String, DossierDistiller> list = lireDossier();
+	Enumeration<DossierDistiller> enume = list.elements();
 	while (enume.hasMoreElements()) {
 		DossierDistiller d = (DossierDistiller)enume.nextElement();
 
 		//Si dossier innaccessible
 		if (! d.getDossierOrg().exists()) {
-			System.out.println("ImageDistiller : le dossier d'origine "+d.getDossierOrg()+" est inexistant ou innaccessible");
+			logger.info("Le dossier d'origine "+d.getDossierOrg()+" est inexistant ou innaccessible");
 			continue;
 		}
 
 		//Si dossier innaccessible
 		if (! d.getDossierDest().exists()) {
-			System.out.println("ImageDistiller : le dossier de destination "+d.getDossierDest()+" est inexistant ou innaccessible");
+			logger.info("Le dossier de destination "+d.getDossierDest()+" est inexistant ou innaccessible");
 			continue;
 		}
 		
@@ -226,7 +235,7 @@ private synchronized void scanneDossiers() throws Exception{
 				newFileConvertError.add(fichierOrg.getAbsolutePath());
 				//Si pas déjà en erreur alors on envoie le message dans la log
 				if (! getFilesConvertError().contains(fichierOrg.getAbsolutePath())) {
-					System.out.println("ImageDistiller : Impossible de convertir le fichier "+fichierOrg);
+					logger.info("Impossible de convertir le fichier "+fichierOrg);
 				}
 				continue;
 			}
@@ -235,7 +244,7 @@ private synchronized void scanneDossiers() throws Exception{
 			try {
 				fichierOrg.delete();
 			} catch (Exception e) {
-				System.out.println("ImageDistiller : Impossible de supprimer le fichier "+fichierOrg.getName());
+				logger.info("Impossible de supprimer le fichier "+fichierOrg.getName());
 				continue;
 			}
 
@@ -249,7 +258,7 @@ private synchronized void scanneDossiers() throws Exception{
 			int h = diff / 360;
 			int m = (diff - h * 360) / 60;
 			int s = diff - h * 360 - m * 60;
-			System.out.println("ImageDistiller : Conversion de "+nbFiles+" fichiers dans le dossier "+d.getDossierOrg().getAbsolutePath()+" en "+
+			logger.info("Conversion de "+nbFiles+" fichiers du dossier "+d.getDossierOrg().getAbsolutePath()+" dans le dossier "+d.getDossierOrg().getAbsolutePath()+" en "+
 				(h>0 ? h+" heures " : "") +
 				(h>0 || m > 0 ? m+" minutes ": "")+
 				s+" secondes");
@@ -262,9 +271,9 @@ private synchronized void scanneDossiers() throws Exception{
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (23/08/2004 11:19:09)
- * @param newFilesConvertError java.util.Vector
+ * @param newFilesConvertError Vector
  */
-private void setFilesConvertError(java.util.Vector newFilesConvertError) {
+private void setFilesConvertError(Vector<String> newFilesConvertError) {
 	filesConvertError = newFilesConvertError;
 }
 /**
@@ -274,9 +283,17 @@ private void setFilesConvertError(java.util.Vector newFilesConvertError) {
  * @param dest java.lang.String
  */
 public void videDossier() throws Exception {
-	java.util.Hashtable list = new java.util.Hashtable();
+	Hashtable<String, DossierDistiller> list = new Hashtable<String, DossierDistiller>();
 
 	ecrireDossier(list);
 	
 }
+
+private static String getNomFichier() {
+	if (nomFichier == null) {
+		nomFichier = (String)ImageDistillerServlet.getParametres().get("DATA_FILE");
+	}
+	return nomFichier;
+}
+
 }

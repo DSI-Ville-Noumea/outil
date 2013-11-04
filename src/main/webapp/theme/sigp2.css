@@ -1,0 +1,180 @@
+.sigp2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	vertical-align: middle;
+	word-spacing: normal;
+	text-align: left;
+	border: thin none;
+	list-style-type: lower-alpha;
+	
+	color: #555555;
+	position: static;
+}
+
+.sigp2-saisie {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight : normal;
+	font-variant: normal;
+	
+	
+
+
+
+  color : teal;
+}
+.sigp2-saisiemajuscule {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: uppercase;
+  color : teal;
+}
+.sigp2-titre {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size : 12px;
+	font-style: oblique;
+	line-height: normal;
+	font-weight: bolder;
+	font-variant: normal;
+	
+	color: #333333;
+}
+.sigp2Copy {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	vertical-align: top;
+	word-spacing: normal;
+	text-align: left;
+	border: thin none;
+	list-style-type: lower-alpha;
+	text-transform: none;
+	color: #555555;
+}
+.sigp2-saisiemajusculenongras {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: uppercase;
+  color : teal;
+}
+.OngletActif{
+  background-image : url(/images/onglet_actif.gif);
+  text-align : center;
+  color : white;
+  text-decoration : blink;
+  font-weight : bold;
+  font-style : italic;
+}
+.OngletInactif{
+  background-image : url(/images/onglet_inactif.gif);
+  text-align : center;
+  font-weight : bold;
+  font-style : italic;
+  color : #ffffff;
+}
+.OngletActifG{
+  background-image : url(/images/onglet_actif_G.gif);
+  width : 8px;
+}
+.OngletActifD{
+  background-image : url(/images/onglet_actif_D.gif);
+  width : 8px;
+}
+.OngletActifC{
+  background-image : url(/images/onglet_actif_C.gif);
+  font-style : italic;
+  color : white;
+  text-align : center;
+  font-weight : bold;
+  
+
+  font-size : 16px;
+  cursor : pointer;
+}
+.OngletInactifG{
+  background-image : url(/images/onglet_inactif_G.gif);
+  width : 8px;
+}
+.OngletInactifD{
+  background-image : url(/images/onglet_inactif_D.gif);
+  width : 8px;
+}
+.OngletInactifC{
+  font-weight : bold;
+  font-style : italic;
+  color : white;
+  background-image : url(/images/onglet_inactif_C.gif);
+  text-align : center;
+  
+
+  font-size : 15px;
+  cursor : pointer;
+}
+.sigp2Fieldset{
+  font-weight : bold;
+  font-style : italic;
+
+
+  color : #555555;
+
+
+  left : 1px;
+}
+.OngletCorps{
+  
+  
+  
+  text-align : center;
+}
+.sigp2-Bouton-100{
+  width : 100px;
+  text-align : center;
+}
+.sigp2-bouton-200{
+  width : 200px;
+  text-align : center;
+}
+
+.sigp2-liste {
+	font-family: monospace;
+	font-size : 11px;
+	vertical-align: middle;
+	text-align: left;
+  color : teal;
+}
+.sigp2-titre-liste {
+	font-family: monospace;
+	font-size : 11px;
+	vertical-align: middle;
+	text-align: left;
+  color : #555555;
+}
+.sigp2-BODY{
+  text-align : center;
+}
+.sigp2-RadioBouton{
+  font-size : 11px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight : bold;
+  
+  color: #555555;
+}

@@ -22,7 +22,7 @@
 	}
 %>
 
-<BODY bgcolor="#ebebeb" BGPROPERTIES="FIXED" lang="FR" link="blue" vlink="purple" class="sigp2-BODY">
+<BODY bgcolor="#ebebeb" lang="FR" link="blue" vlink="purple" class="sigp2-BODY">
 <jsp:useBean class="nc.mairie.outils.distiller.ImageDistillerBean" id="imageDistillerBean" scope="session"></jsp:useBean>
 <P><%=imageDistillerBean.getMessageErreur()%></P>
 <TABLE border="0" width="580" style="text-align : center;">

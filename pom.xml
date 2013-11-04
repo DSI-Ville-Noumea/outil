@@ -44,12 +44,32 @@
 		<dependency>
 			<groupId>nc.mairie</groupId>
 			<artifactId>framework</artifactId>
-			<version>1.8</version>
+			<version>${framework_version}</version>
+		</dependency>
+				<dependency>
+			<groupId>nc.mairie</groupId>
+			<artifactId>DroitsApplisClient</artifactId>
+			<version>${DroitsApplisClient_version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jt400</groupId>
 			<artifactId>jt400</artifactId>
 			<version>6.7</version>
+		</dependency>
+				<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.0.13</version>
 		</dependency>
 	</dependencies>
 
@@ -295,6 +315,8 @@
 		<version>${project.version}</version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<svnurl>https://svn.ville-noumea.nc/sed/outil</svnurl>
+		<framework_version>1.8</framework_version>
+		<DroitsApplisClient_version>1.0.4</DroitsApplisClient_version>
 	</properties>
 
 </project>

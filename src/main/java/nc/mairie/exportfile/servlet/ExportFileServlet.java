@@ -8,11 +8,15 @@ package nc.mairie.exportfile.servlet;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Hashtable;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nc.mairie.technique.Transaction;
 
@@ -28,6 +32,9 @@ public class ExportFileServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1504718999650362299L;
+	
+	private static Logger logger = LoggerFactory.getLogger(ExportFileServlet.class);
+	
 	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -59,10 +66,10 @@ public class ExportFileServlet extends HttpServlet {
 		} else {
 			if (theTTO != null) {
 				recupereFichierTTO(request, response, theTTO);
-				System.out.println("ExportFileServlet : Transfert TTO de "+theTTO+" effectué par "+request.getRemoteHost());
+				logger.info("Transfert TTO de "+theTTO+" effectué par "+request.getRemoteHost());
 			} else {
 				recupereFichier(request, response, theFile);
-				System.out.println("ExportFileServlet : Transfert du fichier "+theFile+" effectué par "+request.getRemoteHost());
+				logger.info("Transfert du fichier "+theFile+" effectué par "+request.getRemoteHost());
 			}
 		}
 		
@@ -296,17 +303,17 @@ public class ExportFileServlet extends HttpServlet {
 	
 		boolean doitPrendreInit = getServletContext().getInitParameterNames().hasMoreElements();
 	
-		System.out.println("Chargement des paramètres initiaux dans la servlet : "+getClass().getName());
+		logger.info("Chargement des paramètres initiaux dans la servlet : "+getClass().getName());
 		if (getParametres().size() == 0) {
 			//chargement des paramêtres du contexte
-			java.util.Enumeration enumContext = doitPrendreInit ? getServletContext().getInitParameterNames() : getServletContext().getAttributeNames();
+			Enumeration<?> enumContext = doitPrendreInit ? getServletContext().getInitParameterNames() : getServletContext().getAttributeNames();
 			while (enumContext.hasMoreElements()) {
 				try {
 					String cleParametre = (String)enumContext.nextElement();
 					if (cleParametre != null && ! cleParametre.startsWith("com.ibm.websphere") ) {
 						String valParametre = doitPrendreInit ? (String)getServletContext().getInitParameter(cleParametre) : (String)getServletContext().getAttribute(cleParametre);
 						getParametres().put(cleParametre,valParametre);
-						System.out.println("Chargement de la clé : "+cleParametre+" avec "+valParametre);
+						logger.info("Chargement de la clé : "+cleParametre+" avec "+valParametre);
 					}
 				} catch (Exception e) {
 					continue;
@@ -314,24 +321,24 @@ public class ExportFileServlet extends HttpServlet {
 			}
 		
 			//chargement des param de la servlet
-			java.util.Enumeration enumServlet = getInitParameterNames();
+			Enumeration<?> enumServlet = getInitParameterNames();
 			while (enumServlet.hasMoreElements()) {
 				String cleParametre = (String)enumServlet.nextElement();
 				String valParametre = (String)getInitParameter(cleParametre);
 				getParametres().put(cleParametre,valParametre);
-				System.out.println("Chargement de la clé : "+cleParametre+" avec "+valParametre);
+				logger.info("Chargement de la clé : "+cleParametre+" avec "+valParametre);
 			}
 		}
-		System.out.println("Fin de chargement des paramètres initiaux dans la servlet : "+getClass().getName());
+		logger.info("Fin de chargement des paramètres initiaux dans la servlet : "+getClass().getName());
 	}
-	private static java.util.Hashtable parametres;
+	private static Hashtable <String,String> parametres;
 	/**
 	 * Returns the servlet info string.
 	 * @author Luc Bourdil
 	 */
-	public static java.util.Hashtable getParametres() {
+	public static Hashtable<String, String> getParametres() {
 		if (parametres == null) {
-			parametres = new java.util.Hashtable();
+			parametres = new Hashtable<String, String>();
 		}
 		return parametres;
 	}
@@ -344,7 +351,7 @@ public class ExportFileServlet extends HttpServlet {
 	private void affichePageTelechargement(javax.servlet.http.HttpServletRequest request, HttpServletResponse response, String theFile) throws IOException{
 
 		String params = "?passe=1";
-		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();){
+		for (Enumeration<?> e = request.getParameterNames(); e.hasMoreElements();){
 			String cle = (String)e.nextElement();
 			params+="&"+cle+"="+request.getParameter(cle);
 		}
@@ -366,9 +373,11 @@ public class ExportFileServlet extends HttpServlet {
 		response.getWriter().println("window.open('','_parent','');");
 		response.getWriter().println("window.close();");
 		response.getWriter().println("}");
-		//response.getWriter().println("window.document.location.href=\"ExportFileServlet" + params +"\";");
-		response.getWriter().println("window.navigate('ExportFileServlet" + params +"');");
-//		response.getWriter().println("opener=self;");
+		
+		
+		response.getWriter().println("window.document.location.href=\"ExportFileServlet" + params +"\";");
+		//response.getWriter().println("window.navigate('ExportFileServlet" + params +"');");
+
 		response.getWriter().println("setTimeout (\"go()\", 2000 );"); 
 		response.getWriter().println("</script></body>");
 
