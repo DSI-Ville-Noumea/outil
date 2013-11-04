@@ -1,0 +1,52 @@
+
+<project name="Outils Mairie">	
+	<bannerLeft>
+		<name>DSI - Mairie de Nouméa</name>
+		<src>img/DSI-logo-blason-or.png</src>
+		<href>http://svpsp/dsi/Pages/Accueil.aspx</href>
+		<alt>http://svpsp/dsi/Pages/Accueil.aspx</alt>
+	</bannerLeft>
+	
+    <publishDate position="right"/>
+    <version position="right"/>
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-stylus-skin</artifactId>
+		<version>1.4</version>
+	  </skin>
+    <body> 
+		<links>
+		  <item name="Accueil DSI" target="_new" href="http://svpsp/dsi/Pages/accueil.aspx"/>
+		  <item name="EasyVista > Demandes d'Interventions" target="_new" href="http://easyvista.ville-noumea.nc"/>
+		  <item name="apt Reference" target="_new" href="http://maven.apache.org/doxia/references/apt-format.html"/>
+		</links>
+
+        <breadcrumbs>
+            <item name="Outils Mairie-PROD" target="_new" href="http://missions-siale"/>	
+            <item name="Outils Mairie-Recette" target="_new" href="http://missions-siale-qual"/>	
+            <item name="Redmine" target="_new" href="https://redmine.ville-noumea.nc/projects/siale/"/>		
+			<item name="Accueil" href="home.html" /> 
+		</breadcrumbs>
+		
+		<menu name="Exploitation">
+        	<item name="Releases" href="exploitation/releases.html"/>
+        	<item name="Contexts" href="exploitation/context.html"/>
+        	<item name="Procédures" href="exploitation/procedures.html"/>
+        	<item name="Tomcat" href="exploitation/tomcat.html"/>
+        </menu>
+		<menu name="Développement">
+			<item name="Specifications" href="doc/specifications/OUTILS-OTL-DOC-EXP-01.doc"/>
+        	<item name="Application" href="developpement/application.html"/>
+			<item name="Importet Projet" href="developpement/importProjet.html"/>
+        	<item name="Builder WAR" href="developpement/creerWAR.html"/>
+        </menu>
+		<menu name="FAQ">
+        	<item name="SIE" href="sie.html"/>
+        	<item name="SED" href="sed.html"/>
+        	<item name="Utilisateurs" href="utilisateurs.html"/>
+        </menu>
+        <menu ref="reports"/>
+    </body>
+</project>
+
+
