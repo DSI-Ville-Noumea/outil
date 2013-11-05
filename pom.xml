@@ -248,13 +248,6 @@
 <!-- 					</execution> -->
 <!-- 				</executions> -->
 <!-- 			</plugin> -->
-			<plugin>
-				<artifactId>maven-ear-plugin</artifactId>
-				<version>2.7</version>
-				<configuration>
-					<applicationXml>./application.xml</applicationXml>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
