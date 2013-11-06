@@ -22,9 +22,9 @@
 		</links>
 
         <breadcrumbs>
-            <item name="Outils Mairie-PROD" target="_new" href="http://missions-siale"/>	
-            <item name="Outils Mairie-Recette" target="_new" href="http://missions-siale-qual"/>	
-            <item name="Redmine" target="_new" href="https://redmine.ville-noumea.nc/projects/siale/"/>		
+            <item name="Outils Mairie-PROD" target="_new" href="http://outil"/>	
+            <item name="Outils Mairie-Recette" target="_new" href="http://outil-qual"/>	
+            <item name="Redmine" target="_new" href="https://redmine.ville-noumea.nc/projects/outil/"/>		
 			<item name="Accueil" href="home.html" /> 
 		</breadcrumbs>
 		
