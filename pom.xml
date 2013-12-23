@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nc.mairie</groupId>
 	<artifactId>outil</artifactId>
@@ -83,7 +83,7 @@
 		<site>
 			<id>outil.website.prod</id>
 			<name>Outil Prod</name>
-			<url>file:\\cristal\dsi$\DSI\PROJETS\2 - ARCHIVES\2 - Métiers\Outils\Documentation_Agile</url>
+			<url>file:\\cristal\DSI$\DSI\PROJETS\doxia\${project.name}</url>
 		</site>
 	</distributionManagement>
 
@@ -118,20 +118,15 @@
 						<phase>package</phase>
 						<configuration>
 							<tasks>
-								<copy
-									file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
-									tofile="src/site/resources/war/${project.version}/${project.artifactId}##${project.version}.${project.packaging}">
+								<copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}" tofile="src/site/resources/war/${project.version}/${project.artifactId}##${project.version}.${project.packaging}">
 								</copy>
-								<copy
-									file="${project.build.directory}/${project.build.finalName}.${project.packaging}"
-									tofile="${project.build.directory}/${project.artifactId}##${project.version}.${project.packaging}">
+								<copy file="${project.build.directory}/${project.build.finalName}.${project.packaging}" tofile="${project.build.directory}/${project.artifactId}##${project.version}.${project.packaging}">
 								</copy>
-								<delete
-									file="${project.build.directory}/${project.build.finalName}.${project.packaging}" />
+								<delete file="${project.build.directory}/${project.build.finalName}.${project.packaging}"/>
 								<checksum algorithm="md5">
 									<fileset dir="src/site/resources/war/${project.version}">
-										<include name="*.war" />
-										<include name="*.jar" />
+										<include name="*.war"/>
+										<include name="*.jar"/>
 									</fileset>
 								</checksum>
 							</tasks>
