@@ -285,7 +285,13 @@ private void performCreer(javax.servlet.http.HttpServletRequest request) throws 
 		return;
 	}
 
-	ImageDistiller.getInstance().ajouteDossier(repOrg, repDest);
+	try {
+		ImageDistiller.getInstance().ajouteDossier(repOrg, repDest);	
+	} catch (Exception e) {
+		bean.setMessageErreur("ImageDistiller : "+e.getMessage());
+		e.printStackTrace();
+	}
+	
 	
 }
 /**
