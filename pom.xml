@@ -7,6 +7,9 @@
 	<packaging>war</packaging>
 	<name>outil</name>
 	<description>Outils divers Mairie</description>
+	<prerequisites>
+  		<maven>3.0.5</maven>
+	</prerequisites>
 	<organization>
 		<name>Mairie de Nouméa</name>
 		<url>http://www.ville-noumea.nc</url>
@@ -92,7 +95,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
+				<version>2.3</version>
 				<configuration>
 					<webResources>
 						<resource>
@@ -141,7 +144,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.3</version>
 				<configuration>
 					<reportPlugins>
 						<plugin>
@@ -204,12 +207,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.4</version>
+				<version>3.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.6</version>
 				<configuration>
 					<nonFilteredFileExtensions>
 						<nonFilteredFileExtension>ico</nonFilteredFileExtension>
@@ -221,7 +224,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-scm-plugin</artifactId>
-				<version>1.5</version>
+				<version>1.8.1</version>
 			</plugin>
 <!-- 			<plugin> -->
 <!-- 				<groupId>org.apache.maven.plugins</groupId> -->
@@ -251,7 +254,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.7</version>
 				<configuration>
 					<webAccessUrl>${svnurl}/trunk</webAccessUrl>
 					<anonymousConnection>scm:svn:${svnurl}/trunk</anonymousConnection>
