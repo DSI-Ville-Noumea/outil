@@ -1,7 +1,6 @@
 /*
  * Created on 20 juil. 2006
  *
- * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package nc.mairie.exportfile.servlet;
@@ -23,7 +22,6 @@ import nc.mairie.technique.Transaction;
 /**
  * @author boulu72
  *
- * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ExportFileServlet extends HttpServlet {
@@ -37,13 +35,11 @@ public class ExportFileServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		//super.doGet(arg0, arg1);
 		performTask(arg0, arg1);
 	}
 	protected void doPost(HttpServletRequest arg0, HttpServletResponse arg1)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		//super.doPost(arg0, arg1);
 		performTask(arg0, arg1);
 	}
