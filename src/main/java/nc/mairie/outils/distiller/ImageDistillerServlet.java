@@ -5,12 +5,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nc.mairie.droitsapplis.client.CheckDroits;
 import nc.mairie.technique.BasicBroker;
@@ -28,7 +27,7 @@ public class ImageDistillerServlet extends javax.servlet.http.HttpServlet {
 	 * 
 	 */
 	
-	private static Logger logger = LoggerFactory.getLogger(ImageDistillerServlet.class);
+	private static Logger logger = Logger.getLogger(ImageDistillerServlet.class.getName());
 	
 	private static final long serialVersionUID = 7672747281577006619L;
 	private static Hashtable<String, String> parametres;

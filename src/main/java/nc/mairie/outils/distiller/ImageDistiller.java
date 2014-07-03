@@ -4,9 +4,7 @@ import java.io.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import nc.mairie.technique.ConvertImageToPDF;
 /**
@@ -16,7 +14,7 @@ import nc.mairie.technique.ConvertImageToPDF;
  */
 public class ImageDistiller extends Thread {
 	private static  String nomFichier;
-	private static Logger logger = LoggerFactory.getLogger(ImageDistiller.class);
+	private static Logger logger = Logger.getLogger(ImageDistiller.class.getName());
 	
 	private int delay;
 	private static ImageDistiller instance;

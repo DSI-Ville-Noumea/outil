@@ -8,14 +8,12 @@ package nc.mairie.exportfile.servlet;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nc.mairie.technique.Transaction;
 
@@ -31,7 +29,7 @@ public class ExportFileServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1504718999650362299L;
 	
-	private static Logger logger = LoggerFactory.getLogger(ExportFileServlet.class);
+	private static Logger logger = Logger.getLogger(ExportFileServlet.class.getName());
 	
 	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1)
 			throws ServletException, IOException {
