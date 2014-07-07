@@ -16,6 +16,9 @@ public class DossierDistiller implements java.io.Serializable {
 
 /**
  * Commentaire relatif au constructeur Dossiers.
+ * 
+ * @param org répertoire d'origine
+ * @param dest répertoire de destination
  */
 public DossierDistiller(String org, String dest) {
 	super();

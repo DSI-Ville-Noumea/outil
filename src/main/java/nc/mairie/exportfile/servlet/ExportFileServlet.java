@@ -31,17 +31,30 @@ public class ExportFileServlet extends HttpServlet {
 	
 	private static Logger logger = Logger.getLogger(ExportFileServlet.class.getName());
 	
+	/**
+	 * 
+	 */
 	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1)
 			throws ServletException, IOException {
 		//super.doGet(arg0, arg1);
 		performTask(arg0, arg1);
 	}
+	/**
+	 * 
+	 */
 	protected void doPost(HttpServletRequest arg0, HttpServletResponse arg1)
 			throws ServletException, IOException {
 		//super.doPost(arg0, arg1);
 		performTask(arg0, arg1);
 	}
 	
+	/**
+	 * 
+	 * @param request request
+	 * @param response response
+	 * @throws ServletException ServletException
+	 * @throws IOException IOException 
+	 */
 	protected void performTask(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
 		
@@ -71,7 +84,10 @@ public class ExportFileServlet extends HttpServlet {
 	/**
 	 * Insérez la description de la méthode à cet endroit.
 	 *  Date de création : (22/02/2002 10:51:46)
-	 * @return fr.averse.servlets.Contexte
+	 * @param request
+	 * @param response
+	 * @param theFile fichier
+	 * @throws IOException
 	 */
 	private void recupereFichier(javax.servlet.http.HttpServletRequest request, HttpServletResponse response, String theFile) throws IOException{
 		try{
@@ -128,7 +144,10 @@ public class ExportFileServlet extends HttpServlet {
 	/**
 	 * Insérez la description de la méthode à cet endroit.
 	 *  Date de création : (22/02/2002 10:51:46)
-	 * @return fr.averse.servlets.Contexte
+	 * @param request
+	 * @param response
+	 * @param theTTO nom du TTO
+	 * @throws IOException
 	 */
 	private void recupereFichierTTO(javax.servlet.http.HttpServletRequest request, HttpServletResponse response, String theTTO) throws IOException{
 		try{
@@ -254,6 +273,9 @@ public class ExportFileServlet extends HttpServlet {
 	/**
 	 * Insérez la description de la méthode à cet endroit.
 	 *  Date de création : (22/02/2002 10:51:46)
+	 * @param champ
+	 * @param theExt
+	 * @return
 	 */
 	private String ajouteChamp(String champ, String theExt){
 		
@@ -269,6 +291,9 @@ public class ExportFileServlet extends HttpServlet {
 	/**
 	 * Insérez la description de la méthode à cet endroit.
 	 *  Date de création : (22/02/2002 10:51:46)
+	 * @param response
+	 * @param theExt
+	 * @throws IOException
 	 */
 	private void ajouteFin(HttpServletResponse response, String theExt) throws IOException{
 		
@@ -291,7 +316,6 @@ public class ExportFileServlet extends HttpServlet {
 	/**
 	 * Insérez la description de la méthode à cet endroit.
 	 *  Date de création : (22/02/2002 10:51:46)
-	 * @return fr.averse.servlets.Contexte
 	 */
 	private void initialiseParametreInitiaux() {
 	
@@ -329,6 +353,7 @@ public class ExportFileServlet extends HttpServlet {
 	/**
 	 * Returns the servlet info string.
 	 * @author Luc Bourdil
+	 * @return Hashtable Hashtable
 	 */
 	public static Hashtable<String, String> getParametres() {
 		if (parametres == null) {
@@ -340,7 +365,10 @@ public class ExportFileServlet extends HttpServlet {
 	/**
 	 * Insérez la description de la méthode à cet endroit.
 	 *  Date de création : (22/02/2002 10:51:46)
-	 * @return fr.averse.servlets.Contexte
+	 * @param request
+	 * @param response
+	 * @param theFile
+	 * @throws IOException
 	 */
 	private void affichePageTelechargement(javax.servlet.http.HttpServletRequest request, HttpServletResponse response, String theFile) throws IOException{
 
@@ -380,7 +408,10 @@ public class ExportFileServlet extends HttpServlet {
 	/**
 	 * Insérez la description de la méthode à cet endroit.
 	 *  Date de création : (22/02/2002 10:51:46)
-	 * @return fr.averse.servlets.Contexte
+	 * @param response
+	 * @param message
+	 * @param info
+	 * @throws IOException
 	 */
 	private void afficheMessage(HttpServletResponse response, String message, boolean info) throws IOException{
 

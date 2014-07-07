@@ -25,6 +25,8 @@ public class ImageDistiller extends Thread {
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:17:15)
+ * 
+ * @param aDelay temps en minutes d'inactivité
  */
 public ImageDistiller(int aDelay) {
 	super();
@@ -36,13 +38,14 @@ public ImageDistiller(int aDelay) {
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:41:14)
- * @param ord java.lang.String
- * @param dest java.lang.String
+ * @param org répertoire d'origine
+ * @param dest répertoire de destination
+ * @throws Exception Exception
  */
-public void ajouteDossier(String ord, String dest) throws Exception {
+public void ajouteDossier(String org, String dest) throws Exception {
 	Hashtable<String, DossierDistiller> list = lireDossier();
 
-	DossierDistiller d = new DossierDistiller(ord, dest);
+	DossierDistiller d = new DossierDistiller(org, dest);
 	list.put(d.getDossierOrg().getAbsolutePath(), d);
 
 	ecrireDossier(list);
@@ -72,8 +75,8 @@ public void destroy() {
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:41:14)
- * @param ord java.lang.String
- * @param dest java.lang.String
+ * @param list liste des dossiers
+ * @throws Exception
  */
 private void ecrireDossier(Hashtable<String, DossierDistiller> list) throws Exception{
 	
@@ -85,19 +88,21 @@ private void ecrireDossier(Hashtable<String, DossierDistiller> list) throws Exce
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:41:14)
- * @param ord java.lang.String
- * @param dest java.lang.String
+ * 
+ * @param dossier dossier à supprimmer
+ * @throws Exception Exception
  */
-public void enleveDossier(String ord) throws Exception {
+public void enleveDossier(String dossier) throws Exception {
 	Hashtable<String, DossierDistiller> list = lireDossier();
 
-	list.remove(ord);
+	list.remove(dossier);
 
 	ecrireDossier(list);
 }
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:16:43)
+ * @return boolean true si le distiller est arrêté
  */
 public boolean estArrete() {
 	return estArrete;
@@ -128,8 +133,8 @@ public static synchronized ImageDistiller getInstance() {
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:41:14)
- * @param ord java.lang.String
- * @param dest java.lang.String
+ * @return Hashtable Hashtable
+ * @throws Exception Exception
  */
 public Hashtable<String, DossierDistiller> lireDossier() throws Exception {
 	FileInputStream fin = null;
@@ -277,8 +282,7 @@ private void setFilesConvertError(Vector<String> newFilesConvertError) {
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:41:14)
- * @param ord java.lang.String
- * @param dest java.lang.String
+ * @throws Exception Exception
  */
 public void videDossier() throws Exception {
 	Hashtable<String, DossierDistiller> list = new Hashtable<String, DossierDistiller>();
@@ -286,7 +290,10 @@ public void videDossier() throws Exception {
 	ecrireDossier(list);
 	
 }
-
+/**
+ * 
+ * @return nom du DATA_FILE passé en paramètre
+ */
 private static String getNomFichier() {
 	if (nomFichier == null) {
 		nomFichier = (String)ImageDistillerServlet.getParametres().get("DATA_FILE");

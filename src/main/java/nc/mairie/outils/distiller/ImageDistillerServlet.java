@@ -35,8 +35,8 @@ public class ImageDistillerServlet extends javax.servlet.http.HttpServlet {
 /**
  * Méthode qui contrôle l'habilitation d'un utilisateur qui se connecte
  * @author Luc Bourdil
- * @param HttpServletRequest
- * @return boolean
+ * @param request request
+ * @return boolean true si l'habilitation est OK
  */
 public static boolean controlerHabilitation(javax.servlet.http.HttpServletRequest request) {
 	//Si un user appli en session alors OK
@@ -136,6 +136,9 @@ public void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 12:39:04)
+ * 
+ * @return Hashtable Hashtable
+ * @throws Exception Exception
  */
 public Hashtable<String, DossierDistiller> getListeDossiers() throws Exception {
 	return ImageDistiller.getInstance().lireDossier();
@@ -144,6 +147,7 @@ public Hashtable<String, DossierDistiller> getListeDossiers() throws Exception {
 /**
  * Returns the servlet info string.
  * @author Luc Bourdil
+ * @return Hashtable Hashtable
  */
 public static Hashtable<String, String> getParametres() {
 	if (parametres == null) {
@@ -187,6 +191,9 @@ public void init() throws javax.servlet.ServletException {
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (14/04/2004 09:53:56)
+ * 
+ * @param request
+ * @throws Exception
  */
 private static void initialiseHabilitations(HttpServletRequest request) throws Exception{
 
@@ -210,7 +217,6 @@ private static void initialiseHabilitations(HttpServletRequest request) throws E
 /**
  * Insérez la description de la méthode à cet endroit.
  *  Date de création : (22/02/2002 10:51:46)
- * @return fr.averse.servlets.Contexte
  */
 private void initialiseParametreInitiaux() {
 
@@ -249,7 +255,7 @@ private void initialiseParametreInitiaux() {
  * Process incoming requests for information
  * 
  * @param request Object that encapsulates the request to the servlet 
- * @param response Object that encapsulates the response from the servlet
+ * @throws Exception
  */
 private void performCreer(javax.servlet.http.HttpServletRequest request) throws Exception {
 
@@ -297,7 +303,7 @@ private void performCreer(javax.servlet.http.HttpServletRequest request) throws 
  * Process incoming requests for information
  * 
  * @param request Object that encapsulates the request to the servlet 
- * @param response Object that encapsulates the response from the servlet
+ * @throws Exception
  */
 private void performDistiller(javax.servlet.http.HttpServletRequest request) throws Exception {
 
@@ -313,7 +319,7 @@ private void performDistiller(javax.servlet.http.HttpServletRequest request) thr
  * Process incoming requests for information
  * 
  * @param request Object that encapsulates the request to the servlet 
- * @param response Object that encapsulates the response from the servlet
+ * @throws Exception
  */
 private void performSupprimer(javax.servlet.http.HttpServletRequest request) throws Exception {
 

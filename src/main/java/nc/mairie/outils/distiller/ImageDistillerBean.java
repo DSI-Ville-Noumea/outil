@@ -27,6 +27,7 @@ public java.lang.String getEtat() {
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 13:00:18)
  * @return java.lang.String[]
+ * @throws Exception Exception
  */
 public java.lang.String[] getLB_DOSSIER() throws Exception {
 
@@ -46,6 +47,7 @@ public java.lang.String[] getLB_DOSSIER() throws Exception {
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 13:00:18)
  * @return java.lang.String[]
+ * @throws Exception Exception
  */
 public java.lang.String[] getLB_DOSSIER_CLE() throws Exception {
 	return LB_DOSSIER_CLE;
@@ -54,6 +56,8 @@ public java.lang.String[] getLB_DOSSIER_CLE() throws Exception {
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 13:00:18)
  * @return java.lang.String[]
+ * @param i indice
+ * @throws Exception Exception
  */
 public java.lang.String getLB_INDICE(int i) throws Exception {
 	return ""+i;
