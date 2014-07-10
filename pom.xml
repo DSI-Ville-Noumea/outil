@@ -26,6 +26,19 @@
                 <role>Développeur</role>
             </roles>
         </developer>
+        <developer>
+            <id>salad74</id>
+            <name>Adrien SALES</name>
+            <email>Adrien.Sales@ville-noumea.nc</email>
+            <url>svpatdi/annuaire/vcards/905431.vcf</url>
+            <roles>
+                <role>Architecte logiciel</role>
+                <role>Développeur</role>
+                <role>Dévloppeur de Tests</role>
+                <role>Intégrateur</role>
+            </roles>
+        </developer>
+        
     </developers>
     
         <properties>
