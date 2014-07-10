@@ -16,10 +16,12 @@
     </organization>
     <developers>
         <developer>
-            <id>Boulu72</id>
-            <name>Luc BOURDIL trunk</name>
-            <email>boulu72@ville-noumea.nc</email>
+            <id>boulu72</id>
+            <name>Luc BOURDIL</name>
+            <email>Luc.Bourdil@ville-noumea.nc</email>
+            <organization>Mairie de Nouméa</organization>
             <url>svpatdi/annuaire/vcards/904117.vcf</url>
+            <organizationUrl>http://www.noumea.nc/</organizationUrl>
             <roles>
                 <role>Chef de projet</role>
                 <role>Architecte logiciel</role>
@@ -30,6 +32,8 @@
             <id>salad74</id>
             <name>Adrien SALES</name>
             <email>Adrien.Sales@ville-noumea.nc</email>
+            <organization>Mairie de Nouméa</organization>
+            <organizationUrl>http://www.noumea.nc/</organizationUrl>
             <url>svpatdi/annuaire/vcards/905431.vcf</url>
             <roles>
                 <role>Architecte logiciel</role>
@@ -41,7 +45,7 @@
         
     </developers>
     
-        <properties>
+    <properties>
         <artifactId>${project.artifactId}</artifactId>
         <version>${project.version}</version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -74,8 +78,8 @@
             <groupId>net.sf.jt400</groupId>
             <artifactId>jt400</artifactId>
             <version>8.2</version>
-<!--             <scope>system</scope> -->
-<!--             <systemPath>${project.basedir}/lib/jt400-8.2.jar</systemPath> -->
+            <!--             <scope>system</scope> -->
+            <!--             <systemPath>${project.basedir}/lib/jt400-8.2.jar</systemPath> -->
         </dependency>
         <dependency>
             <groupId>jcifs</groupId>
@@ -350,6 +354,10 @@
                         </tagClasses>
                     </tagListOptions>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
             </plugin>
         </plugins>
 
