@@ -74,8 +74,8 @@
             <groupId>net.sf.jt400</groupId>
             <artifactId>jt400</artifactId>
             <version>8.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/jt400-8.2.jar</systemPath>
+<!--             <scope>system</scope> -->
+<!--             <systemPath>${project.basedir}/lib/jt400-8.2.jar</systemPath> -->
         </dependency>
         <dependency>
             <groupId>jcifs</groupId>
