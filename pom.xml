@@ -26,15 +26,6 @@
                 <role>Développeur</role>
             </roles>
         </developer>
-        <developer>
-            <id>dosfr75</id>
-            <name>Frederic DOS SANTOS</name>
-            <email>dosfr75@ville-noumea.nc</email>
-            <url>svpatdi/annuaire/vcards/904445.vcf</url>
-            <roles>
-                <role>Correcteur</role>
-            </roles>
-        </developer>
     </developers>
     
         <properties>
