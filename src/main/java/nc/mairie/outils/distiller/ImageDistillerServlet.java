@@ -17,6 +17,9 @@ import nc.mairie.technique.Transaction;
 import nc.mairie.technique.UserAppli;
 import nc.mairie.technique.VariableGlobale;
 import nc.mairie.technique.MairieLDAP;
+
+//Test SVN 1.8.10 commit partiel
+
 /**
  * Insérez la description du type ici.
  * Date de création : (08/04/2004 12:32:08)
