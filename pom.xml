@@ -50,8 +50,8 @@
         <version>${project.version}</version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <svnurl>https://svn.ville-noumea.nc/sed/outil</svnurl>
-        <framework_version>2.1</framework_version>
-        <DroitsApplisClient_version>2.1</DroitsApplisClient_version>
+        <framework_version>2.2</framework_version>
+        <DroitsApplisClient_version>2.2</DroitsApplisClient_version>
         <java.version>1.7</java.version>
         <!-- Avec java 1.8 Si on veut garder les warning @return, @param, .... de javadoc décommenter -->
         <!-- 		<additionalparam>-Xdoclint:none</additionalparam> -->
@@ -78,8 +78,6 @@
             <groupId>net.sf.jt400</groupId>
             <artifactId>jt400</artifactId>
             <version>8.2</version>
-            <!--             <scope>system</scope> -->
-            <!--             <systemPath>${project.basedir}/lib/jt400-8.2.jar</systemPath> -->
         </dependency>
         <dependency>
             <groupId>jcifs</groupId>
