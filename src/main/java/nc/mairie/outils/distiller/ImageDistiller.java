@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import nc.mairie.technique.ConvertImageToPDF;
 /**
@@ -18,8 +18,7 @@ public class ImageDistiller extends Thread {
 	
 	private int delay;
 	private static ImageDistiller instance;
-	private boolean estArrete = false;
-	private boolean vivant = true;
+	private boolean estArrete = false;	private boolean vivant = true;
 
 	private Vector<String> filesConvertError;
 /**

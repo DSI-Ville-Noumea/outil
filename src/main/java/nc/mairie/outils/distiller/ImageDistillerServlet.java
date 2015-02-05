@@ -5,11 +5,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 
 import nc.mairie.droitsapplis.client.CheckDroits;
 import nc.mairie.technique.BasicBroker;
@@ -181,6 +181,7 @@ private static UserAppli getUserAppli(javax.servlet.http.HttpServletRequest requ
  * Aucun code source disponible.
  */
 public void init() throws javax.servlet.ServletException {
+
 	// Démarrage du distiller
 	if (!ImageDistiller.getInstance().isAlive()) {
 		ImageDistiller.getInstance().start();
@@ -188,7 +189,6 @@ public void init() throws javax.servlet.ServletException {
 	
 	// insert code to initialize the servlet here
 	initialiseParametreInitiaux();
-
 
 }
 /**
