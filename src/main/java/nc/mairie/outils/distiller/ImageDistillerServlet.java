@@ -181,14 +181,15 @@ private static UserAppli getUserAppli(javax.servlet.http.HttpServletRequest requ
  * Aucun code source disponible.
  */
 public void init() throws javax.servlet.ServletException {
-
+	
+	// insert code to initialize the servlet here
+	initialiseParametreInitiaux();
+	
 	// Démarrage du distiller
 	if (!ImageDistiller.getInstance().isAlive()) {
 		ImageDistiller.getInstance().start();
 	}
 	
-	// insert code to initialize the servlet here
-	initialiseParametreInitiaux();
 
 }
 /**

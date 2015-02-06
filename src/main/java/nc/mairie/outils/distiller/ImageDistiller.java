@@ -1,12 +1,18 @@
 package nc.mairie.outils.distiller;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.sql.Connection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 import org.apache.log4j.Logger;
 
+import nc.mairie.metier.DistillerEtat;
+import nc.mairie.technique.BasicBroker;
 import nc.mairie.technique.ConvertImageToPDF;
+import nc.mairie.technique.Transaction;
 /**
  * Insérez la description du type ici.
  * Date de création : (08/04/2004 10:08:25)
@@ -18,7 +24,7 @@ public class ImageDistiller extends Thread {
 	
 	private int delay;
 	private static ImageDistiller instance;
-	private boolean estArrete = false;	private boolean vivant = true;
+	private boolean vivant = true;
 
 	private Vector<String> filesConvertError;
 /**
@@ -53,16 +59,74 @@ public void ajouteDossier(String org, String dest) throws Exception {
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:16:43)
+ * @throws UnknownHostException 
  */
-public void arreter() {
-	estArrete=true;
+public void arreter() throws UnknownHostException {
+	
+	String ip = InetAddress.getLocalHost().getHostAddress();
+		
+	Transaction t = getUneTransaction();
+	
+	DistillerEtat de;
+	try {
+		de = DistillerEtat.chercherDistillerEtat(t, ip);
+		
+		de.setQuand(Long.valueOf(System.currentTimeMillis()).toString());
+		de.setEtat("OFF");
+		
+		//si pas trouvé
+		if (t.isErreur()) {
+			t.traiterErreur();
+			de.setServeurip(ip);
+			de.creerDistillerEtat(t);
+		} else {
+			de.modifierDistillerEtat(t);
+		}
+		
+		t.commitTransaction();
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		fermerTransaction(t);
+	}
+	
+	
+	
 }
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:16:43)
+ * @throws UnknownHostException 
  */
-public void demarrer() {
-	estArrete=false;
+public void demarrer() throws UnknownHostException {
+	String ip = InetAddress.getLocalHost().getHostAddress();
+	
+	Transaction t = getUneTransaction();
+	
+	DistillerEtat de;
+	try {
+		de = DistillerEtat.chercherDistillerEtat(t, ip);
+		
+		de.setQuand(Long.valueOf(System.currentTimeMillis()).toString());
+		de.setEtat("ON");
+		
+		//si pas trouvé
+		if (t.isErreur()) {
+			t.traiterErreur();
+			de.setServeurip(ip);
+			de.creerDistillerEtat(t);
+		} else {
+			de.modifierDistillerEtat(t);
+		}
+		
+		t.commitTransaction();
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		fermerTransaction(t);
+	}
 }
 /**
  * Destroys this thread, without any cleanup. Any monitors it has 
@@ -98,12 +162,66 @@ public void enleveDossier(String dossier) throws Exception {
 
 	ecrireDossier(list);
 }
+
+public Transaction getUneTransaction () {
+
+	String servername = ImageDistillerServlet.getParametres().get("HOST_SGBD");
+	
+	if (servername == null) {
+		logger.fatal("La variable HOST_SGBD ne se trouve pas dans le contexte.");
+		return null;
+	}
+		
+	try {
+		Connection con = BasicBroker.getUneConnexion(null, null, servername);
+		con.setAutoCommit(true);
+		Transaction t= new Transaction(con);
+		return t;
+	} catch (Exception e) {
+		logger.fatal("Impossible d'avoir une connexion sur "+servername);
+		return null;
+	}
+}
+
+public void fermerTransaction (Transaction t) {
+	if (t==null) return;
+	try {
+		t.getConnection().close();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
+
+
 /**
  * Insérez la description de la méthode ici.
  *  Date de création : (08/04/2004 10:16:43)
  * @return boolean true si le distiller est arrêté
  */
 public boolean estArrete() {
+	
+	Transaction t = getUneTransaction();
+	
+	boolean estArrete = true;
+	
+	try {
+		
+		DistillerEtat de = DistillerEtat.chercherLastDistillerEtat(t);
+		
+		// Si pas trouvé d'enreg, c'est que table vide
+		if (t.isErreur()) {
+			t.traiterErreur();
+			estArrete = true;
+		} else {
+			estArrete = "OFF".equals(de.getEtat());
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		fermerTransaction(t);
+	}
+	
 	return estArrete;
 }
 /**
@@ -161,16 +279,86 @@ public void run() {
 	while (vivant) {
 		synchronized (this) {
 			try {
+				logger.debug("debug");
 				sleep(delay);
 			} catch (Exception sleep) {
 				sleep.printStackTrace();
 			}
-			if (! estArrete) {
-				try {
-					scanneDossiers();
-				} catch (Exception e) {
-					e.printStackTrace();
+			
+			Transaction t = null;
+			try {
+				//Recup du distillerEtat en cours
+				t = getUneTransaction();
+				String monIP = InetAddress.getLocalHost().getHostAddress();
+				DistillerEtat lastDE = DistillerEtat.chercherLastDistillerEtat(t);
+				
+				//si pas trouvé on créée l'enreg à ON
+				if (t.isErreur()) {
+					t.traiterErreur();
+					lastDE.setServeurip(monIP);
+					lastDE.setQuand(Long.valueOf(System.currentTimeMillis()).toString());
+					lastDE.setEtat("ON");
+					lastDE.creerDistillerEtat(t);
 				}
+				
+				//si dernière action a moins de 3 fois le delay autorisén
+				long delaiDerniereExecution = System.currentTimeMillis() - Long.valueOf(lastDE.getQuand());  
+				logger.debug("temps : "+delaiDerniereExecution );
+				
+				if (delaiDerniereExecution  < delay * 3) {
+					
+					//Si c'est mon IP qui a bossé la dernière fois
+					if (monIP.equals(lastDE.getServeurip().trim())) {
+						
+						lastDE.setQuand(Long.valueOf(System.currentTimeMillis()).toString());
+						lastDE.modifierDistillerEtat(t);
+						
+						//Si l'ancien état était à OFF
+						if ("ON".equals(lastDE.getEtat().trim())) {
+							
+							logger.debug("Scanne dossiers normalement");
+							scanneDossiers();
+							
+						} else {
+							logger.debug("Je suis sur OFF");
+						}
+					
+					//c'était pas mon IP, je patiente
+					} else {
+						//bhen rien
+						logger.debug("c'est pas mon ip, alors je patiente");
+					}
+					
+					
+					
+				//Plus de 3mn alors il faut forcer le lancement
+				} else {
+					//Recup du distiller si pa mon IP
+					DistillerEtat de = lastDE.getServeurip().trim().equals(monIP) ? lastDE : DistillerEtat.chercherDistillerEtat(t, monIP);
+				
+					de.setQuand(Long.valueOf(System.currentTimeMillis()).toString());
+					de.setEtat("ON");
+					
+					//si pas trouvé
+					if (t.isErreur()) {
+						t.traiterErreur();
+						de.setServeurip(monIP);
+						de.creerDistillerEtat(t);
+					} else {
+						de.modifierDistillerEtat(t);
+					}
+					
+					t.commitTransaction();
+					
+					//Si last etat = ON alors scanne dossier
+					logger.info("Scanne dossiers car ça fait plus de "+(delay/1000)+" secondes  : "+(delaiDerniereExecution/1000)+" secondes.");
+					scanneDossiers();
+				
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			} finally {
+				fermerTransaction(t);
 			}
 		}
 	}
