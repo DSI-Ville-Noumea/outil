@@ -8,10 +8,7 @@ package nc.noumea.mairie.distiller;
 import com.lowagie.text.pdf.PdfReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
-import java.util.Date;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
@@ -139,7 +136,6 @@ public class DistillerTest {
     @Test
     public void dWaitForDistiller(){
         try{
-            Date start = new Date();
             
             boolean exists = true;
             do {
@@ -148,21 +144,19 @@ public class DistillerTest {
                 System.out.println("image still waiting for being processed by distiller.");
                 Thread.sleep(500);
             } while (exists);
-            Date end = new Date();
             SmbFile sFile = new SmbFile(destinationPath + "/" + testFileName, auth);
             Assert.assertFalse(sFile.exists());
             System.out.println("image now being processed by distiller.");
         }
         catch(Exception ex){
-            Assert.assertNull(ex);
             ex.printStackTrace();
+        	Assert.assertNull(ex);
         }
     }
     
     @Test
     public void eCheckDistillation(){
         try{
-            Date start = new Date();
             
             boolean distilled = false;
             String pdfFileName = FilenameUtils.removeExtension(testFileName) + ".pdf";
@@ -176,14 +170,13 @@ public class DistillerTest {
                 System.out.println("image still being processed by distiller...");
                 Thread.sleep(100);
             }
-            Date end = new Date();
             sFile = new SmbFile(pdfDirectory + pdfFileName, auth);
             Assert.assertTrue(sFile.exists());
             System.out.println("image has been been processed by distiller into a pdf.");
         }
         catch(Exception ex){
-            Assert.assertNull(ex);
-            ex.printStackTrace();
+        	ex.printStackTrace();
+        	Assert.assertNull(ex);
         }
     }
     
