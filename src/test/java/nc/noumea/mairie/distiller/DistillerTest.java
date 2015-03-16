@@ -6,18 +6,22 @@
 package nc.noumea.mairie.distiller;
 
 import com.lowagie.text.pdf.PdfReader;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
+
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
+
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -37,6 +41,7 @@ public class DistillerTest {
     private String as400User;
     private NtlmPasswordAuthentication auth;
     private String pdfDirectory;
+    Logger logger = Logger.getLogger(DistillerTest.class.getName());
 
     /**
      * Uploads test image to remote samba share
@@ -104,9 +109,9 @@ public class DistillerTest {
     @Test
     public void cUploadImage() {
         try {
-            System.out.println("testFileName : " + testFileName);
-            System.out.println("destinationPath : " + destinationPath);
-            System.out.println("as400User : " + as400User);
+            logger.info("testFileName : " + testFileName);
+            logger.info("destinationPath : " + destinationPath);
+            logger.info("as400User : " + as400User);
             
             URL url = getClass().getResource("/" + testFileName);
             File testFile = new File(url.getFile());
@@ -141,12 +146,12 @@ public class DistillerTest {
             do {
                 SmbFile sFile = new SmbFile(destinationPath + "/" + testFileName, auth);
                 exists = sFile.exists();
-                System.out.println("image still waiting for being processed by distiller.");
+                logger.info("image still waiting for being processed by distiller.");
                 Thread.sleep(500);
             } while (exists);
             SmbFile sFile = new SmbFile(destinationPath + "/" + testFileName, auth);
             Assert.assertFalse(sFile.exists());
-            System.out.println("image now being processed by distiller.");
+            logger.info("image now being processed by distiller.");
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -161,18 +166,18 @@ public class DistillerTest {
             boolean distilled = false;
             String pdfFileName = FilenameUtils.removeExtension(testFileName) + ".pdf";
             
-            System.out.println("pdf filename : " + pdfDirectory + pdfFileName);
+            logger.info("pdf filename : " + pdfDirectory + pdfFileName);
             SmbFile sFile = new SmbFile(pdfDirectory + pdfFileName, auth);
             distilled = sFile.exists();
             while(distilled == false) {
                 sFile = new SmbFile(pdfDirectory + pdfFileName, auth);
                 distilled = sFile.exists();
-                System.out.println("image still being processed by distiller...");
+                logger.info("image still being processed by distiller...");
                 Thread.sleep(100);
             }
             sFile = new SmbFile(pdfDirectory + pdfFileName, auth);
             Assert.assertTrue(sFile.exists());
-            System.out.println("image has been been processed by distiller into a pdf.");
+            logger.info("image has been been processed by distiller into a pdf.");
         }
         catch(Exception ex){
         	ex.printStackTrace();
