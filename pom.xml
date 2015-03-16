@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>nc.mairie</groupId>
     <artifactId>outil</artifactId>
-    <version>2.4-SNAPSHOT</version>
+    <version>2.4</version>
     <packaging>war</packaging>
     <name>outil</name>
     <description>Outils divers Mairie</description>
