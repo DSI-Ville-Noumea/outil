@@ -256,6 +256,7 @@
 		try {
 			datasource = (DataSource) new javax.naming.InitialContext().lookup("java:comp/env/jdbc/" + HOST_SGBD);
 			con = datasource.getConnection();
+			con.setAutoCommit(false);
 			st=con.createStatement();
 			
 			if (requete.trim().toUpperCase().startsWith("SELECT")) {
@@ -292,11 +293,21 @@
 				
 			} else {
 				
-				int nb = st.executeUpdate(requete);
+				String [] requetes = requete.split(";");
+				
+				for (int i=0; i<requetes.length;i++) {
+					st.addBatch(requetes[i]);
+				}
+				
+				int [] result = st.executeBatch();
 				
 				con.commit();
 				
-				message = "Execution réussie : "+nb;
+				message = "Execution réussie : ";
+				
+				for (int i=0; i<result.length;i++) {
+					message+=result[i]+" ";
+				}
 				
 			}
 			
