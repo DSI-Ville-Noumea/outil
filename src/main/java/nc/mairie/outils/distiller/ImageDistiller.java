@@ -448,7 +448,7 @@ private synchronized void scanneDossiers() throws Exception{
 			int h = diff / 360;
 			int m = (diff - h * 360) / 60;
 			int s = diff - h * 360 - m * 60;
-			logger.info("Conversion de "+nbFiles+" fichiers du dossier "+d.getDossierOrg().getAbsolutePath()+" dans le dossier "+d.getDossierOrg().getAbsolutePath()+" en "+
+			logger.info("Conversion de "+nbFiles+" fichiers du dossier "+d.getDossierOrg().getAbsolutePath()+" dans le dossier "+d.getDossierDest().getAbsolutePath()+" en "+
 				(h>0 ? h+" heures " : "") +
 				(h>0 || m > 0 ? m+" minutes ": "")+
 				s+" secondes");
