@@ -5,8 +5,6 @@
  */
 package nc.noumea.mairie.distiller;
 
-import com.lowagie.text.pdf.PdfReader;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
@@ -27,6 +25,8 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import com.itextpdf.text.pdf.PdfReader;
 
 /**
  *
