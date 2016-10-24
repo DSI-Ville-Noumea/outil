@@ -1,0 +1,8 @@
+language: java
+jdk:
+- oraclejdk8
+cache:
+  directories:
+  - ".autoconf" 
+  - "$HOME/.m2" 
+install: mvn clean install checksum:files -DskipTests=true -Dmaven.javadoc.skip=true -B -V
