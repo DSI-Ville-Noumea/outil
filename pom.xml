@@ -57,7 +57,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <svnurl>https://svn.ville-noumea.nc/sed/outil</svnurl>
         <framework_version>framework-2.5</framework_version>
-        <DroitsApplisClient_version>2.3</DroitsApplisClient_version>
+        <DroitsApplisClient_version>droits-applis-client-2.4</DroitsApplisClient_version>
         <java.version>1.8</java.version>
         <!-- Avec java 1.8 Si on veut garder les warning @return, @param, .... de javadoc décommenter -->
         <!-- 		<additionalparam>-Xdoclint:none</additionalparam> -->
@@ -76,8 +76,8 @@
             <version>${framework_version}</version>
         </dependency>
         <dependency>
-            <groupId>nc.mairie</groupId>
-            <artifactId>DroitsApplisClient</artifactId>
+       		<groupId>com.github.DSI-Ville-Noumea</groupId>
+			<artifactId>droits-applis-client</artifactId>
             <version>${DroitsApplisClient_version}</version>
         </dependency>
         <dependency>
