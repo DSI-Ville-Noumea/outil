@@ -3,4 +3,4 @@
 
 # outil
 
-Bo�te � outils des applis java legacy
+Boite à outils des applis java legacy
