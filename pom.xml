@@ -52,7 +52,7 @@
     </developers>
     
     <properties>
-		<versioneye-maven-plugin.version>3.10.2</versioneye-maven-plugin.version>
+		<versioneye-maven-plugin.version>3.11.1</versioneye-maven-plugin.version>
 		<versioneye-maven-plugin.apiKey>${env.VERSIONEYE_APIKEY}</versioneye-maven-plugin.apiKey>
 		<versioneye-maven-plugin.projectId>${env.VERSIONEYE_PROJECTID}</versioneye-maven-plugin.projectId>
         <artifactId>${project.artifactId}</artifactId>
@@ -62,6 +62,10 @@
         <framework_version>framework-2.5</framework_version>
         <DroitsApplisClient_version>droits-applis-client-2.4</DroitsApplisClient_version>
         <java.version>1.8</java.version>
+        <servlet-api.version>6.0.48</servlet-api.version>
+        <maven-site-plugin.version>3.6</maven-site-plugin.version>
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
         <!-- Avec java 1.8 Si on veut garder les warning @return, @param, .... de javadoc décommenter -->
         <!-- 		<additionalparam>-Xdoclint:none</additionalparam> -->
     </properties>
@@ -70,7 +74,7 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>6.0.47</version>
+            <version>${servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -218,7 +222,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>${maven-site-plugin.version}</version>
                 <configuration>
                     <reportPlugins>
                         <plugin>
@@ -282,7 +286,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -291,7 +295,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>${maven-resources-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
